@@ -23,7 +23,7 @@ def create_app():
         SECRET_KEY = 'dev',
         SQLALCHEMY_TRACK_MODIFICATIONS = False,
         DB_NAME = 'test',
-        DB_HOST = '192.168.1.100',
+        DB_HOST = 'db',
         DB_PORT = '5432',
         DB_USER = 'postgres',
         DB_PASS = 'test'

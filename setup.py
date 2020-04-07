@@ -1,7 +1,9 @@
 from setuptools import setup, find_packages
 
+
 with open("README.md", "r") as fh:
     long_description = fh.read()
+
 
 setup(
     name="json-storage",
@@ -21,7 +23,7 @@ setup(
     install_requires=[
         'Flask>=1.1.2',
         'Flask-SQLAlchemy>=2.4.1',
-        'psycopg2>=2.8.5'
+        'psycopg2-binary>=2.8.5'
     ],
     python_requires='>=3.6',
 )
