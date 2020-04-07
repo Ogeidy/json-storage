@@ -42,6 +42,11 @@ docker run -d --name dbTest \
     postgres
 ~~~
 
+Create database:
+~~~
+docker exec -ti dbTest psql -U postgres -c 'CREATE DATABASE test'
+~~~
+
 Build json-storage image:
 ~~~
 docker build . -t json-storage
