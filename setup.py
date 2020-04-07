@@ -5,7 +5,7 @@ with open("README.md", "r") as fh:
 
 setup(
     name="json-storage",
-    version="0.3",
+    version="0.1",
     author="Yakov Mamontov",
     author_email="yakov-mamontov@yandex.ru",
     description="Web service for storing JSON",
