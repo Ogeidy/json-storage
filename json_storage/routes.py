@@ -7,13 +7,29 @@ from json_storage.models import Jsons
 
 @app.route('/')
 def index():
-    return f'<p><a href="{url_for("get_all_json")}">Show all JSONs</a></p>'
+    return f'''<p><a href="{url_for("get_all_json")}">Show all JSONs</a></p>
+            <p><a href="{url_for("stat")}">Show stats</a></p>
+            '''
+
+
+@app.route('/api/stat')
+def stat():
+    sql_request = """SELECT n_live_tup,
+                        seq_scan + idx_tup_fetch as reading, 
+                        n_tup_ins, 
+                        n_tup_del 
+                    FROM pg_stat_user_tables WHERE relname='jsons'"""
+
+    row = db.engine.execute(sql_request).first()
+    result = {'rows':row[0], 'reads':row[1], 'writes':row[2], 'deletes':row[3]}
+    print(result)
+    return json.dumps(result, indent=4)
 
 
 @app.route('/api/json', methods=['GET'])
 def get_all_json():
-    result = '\n'.join((f'{x.id}: {x.data}' for x in Jsons.query.all()))
-    return result
+    result = {k:json.loads(v.data) for k, v in enumerate(Jsons.query.all())}
+    return json.dumps(result, indent=4)
 
 
 @app.route('/api/json/<id>', methods=['GET'])

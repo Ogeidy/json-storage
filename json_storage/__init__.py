@@ -13,7 +13,8 @@ def create_app():
     app.config.from_mapping(
         SECRET_KEY = 'dev',
         SQLALCHEMY_TRACK_MODIFICATIONS = False,
-        SQLALCHEMY_DATABASE_URI = f'sqlite:///{app.instance_path}/test.sqlite'
+        # SQLALCHEMY_DATABASE_URI = f'sqlite:///{app.instance_path}/test.sqlite'
+        SQLALCHEMY_DATABASE_URI = 'postgresql://postgres:test@192.168.1.100/test'
     )
 
     db.init_app(app)

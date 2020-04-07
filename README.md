@@ -23,3 +23,14 @@ Delete JSON
 ~~~
 curl -s -X "DELETE" http://127.0.0.1:5000/api/json/2
 ~~~
+
+
+Create PostgreSQL docker container:
+~~~
+docker run -d --name dbTest \
+    -v /home/diego/Development/postgres/dbTest:/var/lib/postgresql/data \
+    --restart=always \
+    -e POSTGRES_PASSWORD=test \
+    -p 5432:5432 \
+    postgres
+~~~
