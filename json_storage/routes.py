@@ -22,32 +22,46 @@ def stat():
 
     row = db.engine.execute(sql_request).first()
     result = {'rows':row[0], 'reads':row[1], 'writes':row[2], 'deletes':row[3]}
-    print(result)
     return json.dumps(result, indent=4)
 
 
 @app.route('/api/json', methods=['GET'])
 def get_all_json():
-    result = {k:json.loads(v.data) for k, v in enumerate(Jsons.query.all())}
+    result = [{'id':row.id, 'data':json.loads(row.data)} for row in Jsons.query.all()]
     return json.dumps(result, indent=4)
-
-
-@app.route('/api/json/<id>', methods=['GET'])
-def get_json(id):
-    item = Jsons.query.get(id)
-    if item is not None:
-        return f'{item.data}'
-    else:
-        abort(404)
 
 
 @app.route('/api/json', methods=['POST'])
 def post_json():
     if request.is_json:
-        new_jsons = Jsons(data=json.dumps(request.get_json()))
-        db.session.add(new_jsons)
+        new_json = Jsons(data=json.dumps(request.get_json()))
+        db.session.add(new_json)
         db.session.commit()
-        return f"{dict(id=new_jsons.id)}"
+        return json.dumps(dict(id=new_json.id))
+    else:
+        abort(400)
+
+
+@app.route('/api/json/<int:id>', methods=['GET'])
+def get_json(id):
+    item = Jsons.query.get(id)
+    if item is not None:
+        return json.dumps(json.loads(item.data), indent=4)
+    else:
+        abort(404)
+
+
+@app.route('/api/json/<int:id>', methods=['PUT'])
+def change_json(id):
+    if request.is_json:
+        new_item = Jsons(data=json.dumps(request.get_json()))
+        old_item = Jsons.query.get(id)
+        if old_item is not None:
+            old_item.data = new_item.data
+            db.session.commit()
+            return json.dumps(dict(id=old_item.id))
+        else:
+            abort(404) 
     else:
         abort(400)
 
@@ -58,6 +72,6 @@ def del_json(id):
     if item is not None:
         db.session.delete(item)
         db.session.commit()
-        return 'ok'
+        return '{"status":"ok"}'
     else:
         abort(404)

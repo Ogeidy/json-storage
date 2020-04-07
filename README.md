@@ -2,7 +2,7 @@
 Test project of web service using Flask and PostgreSQL
 
 
-## Some useful commands
+## API reference
 
 Add JSON
 ~~~
@@ -24,6 +24,13 @@ Delete JSON
 curl -s -X "DELETE" http://127.0.0.1:5000/api/json/2
 ~~~
 
+Change already existing JSON
+~~~
+curl -s -H "Content-Type: application/json" -X "PUT" -d '{"new":5, "key":"second"}' http://127.0.0.1:5000/api/json/10
+~~~
+
+
+## Deploying manual
 
 Create PostgreSQL docker container:
 ~~~
