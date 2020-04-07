@@ -32,12 +32,26 @@ curl -s -H "Content-Type: application/json" -X "PUT" -d '{"new":5, "key":"second
 
 ## Deploying manual
 
-Create PostgreSQL docker container:
+Create PostgreSQL container:
 ~~~
 docker run -d --name dbTest \
-    -v /home/diego/Development/postgres/dbTest:/var/lib/postgresql/data \
+    -v $PWD/postgres/dbTest:/var/lib/postgresql/data \
     --restart=always \
     -e POSTGRES_PASSWORD=test \
     -p 5432:5432 \
     postgres
+~~~
+
+Build json-storage image:
+~~~
+docker build . -t json-storage
+~~~
+
+Create json-storage container:
+~~~
+docker run -d --name jsonStorage \
+     --link dbTest:db \
+     -p 5000:5000 \
+     -v $PWD/instance:/usr/src/app/instance \
+     json-storage
 ~~~

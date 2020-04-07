@@ -21,7 +21,7 @@ def stat():
                     FROM pg_stat_user_tables WHERE relname='jsons'"""
 
     row = db.engine.execute(sql_request).first()
-    result = {'rows':row[0], 'reads':row[1], 'writes':row[2], 'deletes':row[3]}
+    result = {'rows':row[0], 'reads':row[1], 'writes':row[2], 'deletions':row[3]}
     return json.dumps(result, indent=4)
 
 
