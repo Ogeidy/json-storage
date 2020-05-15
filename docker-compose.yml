@@ -1,0 +1,23 @@
+version: "3"
+
+services:
+
+    server:
+        build: .
+        restart: always
+        ports:
+            - 5000:5000
+        volumes:
+            - ./instance:/usr/src/app/instance
+        depends_on:
+            - db
+
+    db:
+        image: postgres
+        restart: always
+        volumes:
+            - ./db:/var/lib/postgresql/data
+            - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+        environment:
+            POSTGRES_PASSWORD: test
+

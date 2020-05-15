@@ -30,7 +30,15 @@ curl -s -H "Content-Type: application/json" -X "PUT" -d '{"new":5, "key":"second
 ~~~
 
 
-## Deploying manual
+## Deploy
+
+### Docker compose
+
+~~~
+docker-compose up
+~~~
+
+### Manually
 
 Create PostgreSQL container:
 ~~~
